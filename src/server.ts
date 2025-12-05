@@ -1,25 +1,15 @@
-import express, { Request, Response } from "express";
-import { Pool } from "pg";
+import express from "express";
 import config from "./config";
+import { initDB } from "./config/db";
+import { vehiclesRoute } from "./modules/vechiles/vehicles.route";
 
 const app = express();
 const port = config.port;
 app.use(express.json());
 
-const pool = new Pool({
-  connectionString: `${config.connection_str}`,
-});
+initDB();
 
-app.post("/api/v1/vehicles", (req: Request, res: Response) => {
-  const body = req.body;
-  console.log(body);
-});
-
-app.get("/", (req: Request, res: Response) => {
-  res
-    .status(200)
-    .json({ message: "Server is running in root", path: req.path });
-});
+app.use("/api/v1/vehicles", vehiclesRoute);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
