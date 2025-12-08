@@ -8,7 +8,7 @@ This project handles user management, vehicle inventory, bookings, and role-base
 ## 🌐 Live Deployment
 
 🔗 **Live API URL:**  
-<(https://assignment2-blond-one.vercel.app/)>
+<https://assignment2-blond-one.vercel.app/>
 
 🔗 **GitHub Repository:**  
 <https://github.com/tareqferdous/next-level-assignment-2>
@@ -32,17 +32,20 @@ The system is designed following a **modular architecture** with clear separatio
 ## ✨ Features
 
 ### 👥 User Management
+
 - User registration with password hashing
 - User login with JWT-based authentication
 - Role-based users: **Admin** and **Customer**
 - CRUD operations for users (role-based access)
 
 ### 🚙 Vehicle Management
+
 - Add, update, view, and delete vehicles
 - Track vehicle availability (`available`, `booked`)
 - Restrict vehicle management to admin users
 
 ### 📅 Booking Management
+
 - Create vehicle bookings
 - Automatically calculate total rental cost
 - Prevent booking unavailable vehicles
@@ -51,6 +54,7 @@ The system is designed following a **modular architecture** with clear separatio
 - Admin can view all bookings, customers can view their own
 
 ### 🔐 Security
+
 - Password hashing using bcrypt
 - JWT-based authentication
 - Role-based authorization
@@ -70,6 +74,7 @@ The system is designed following a **modular architecture** with clear separatio
 - **dotenv**
 
 ---
+
 ## ⚙️ Setup & Installation
 
 ### 1️⃣ Clone the repository
@@ -82,3 +87,4 @@ PORT=5000
 DATABASE_URL=your_postgresql_connection_string
 JWT_SECRET=your_secret_key
 npm run dev
+```
