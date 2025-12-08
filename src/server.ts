@@ -6,8 +6,6 @@ import { bookingsRouter } from "./modules/bookings/bookings.route";
 import { usersRoute } from "./modules/users/users.route";
 import { vehiclesRoute } from "./modules/vechiles/vehicles.route";
 
-const secret = "KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30";
-
 const app = express();
 const port = config.port;
 app.use(express.json());

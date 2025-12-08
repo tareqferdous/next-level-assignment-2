@@ -1,8 +1,9 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import config from "../../config";
 import { pool } from "../../config/db";
 
-export const secret = "KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30";
+const secret = config.jwtSecret!;
 
 const loginUserIntoDB = async (email: string, password: string) => {
   const user = await pool.query(

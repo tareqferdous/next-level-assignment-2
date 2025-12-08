@@ -1,10 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { pool } from "../config/db";
-import { secret } from "../modules/auth/auth.service";
+import config from "../config";
 
 const auth = (...roles: ("admin" | "customer")[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
+    const secret = config.jwtSecret!;
     const requestHeader = req.headers.authorization;
     const parts = String(requestHeader).split(" ");
     const token =
