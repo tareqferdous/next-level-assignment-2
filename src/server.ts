@@ -12,6 +12,10 @@ app.use(express.json());
 
 initDB();
 
+app.get("/", (req, res) => {
+  res.send("Server is running ✅");
+});
+
 app.use("/api/v1/vehicles", vehiclesRoute);
 app.use("/api/v1/users", usersRoute);
 app.use("/api/v1/auth", authRoute);
