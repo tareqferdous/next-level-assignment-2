@@ -5,7 +5,10 @@ import { secret } from "../modules/auth/auth.service";
 
 const auth = (...roles: ("admin" | "customer")[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
-    const token = req.headers.authorization;
+    const requestHeader = req.headers.authorization;
+    const parts = String(requestHeader).split(" ");
+    const token =
+      parts.length === 2 && parts[0] === "Bearer" ? parts[1] : parts[0];
     if (!token) {
       throw new Error("You are not authorized");
     }

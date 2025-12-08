@@ -19,12 +19,23 @@ const getAllUsers = async (req: Request, res: Response) => {
 
 const updateUser = async (req: Request, res: Response) => {
   const { userId } = req.params;
+  const isAllowedToUpdate =
+    req.user?.email === req.body.email || req.user?.role === "admin";
+
   try {
+    if (!isAllowedToUpdate) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not authorized to update this user",
+      });
+    }
+
     const result = await usersService.updateUserInDB(
       userId as string,
       req.body
     );
-    res.status(200).json({
+
+    return res.status(200).json({
       success: true,
       message: "User updated successfully",
       data: result.rows[0],
