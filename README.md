@@ -8,7 +8,7 @@ This project handles user management, vehicle inventory, bookings, and role-base
 ## 🌐 Live Deployment
 
 🔗 **Live API URL:**  
-<https://vehicle-rental-system-five-liart.vercel.app>
+<https://rental-system-two.vercel.app/>
 
 🔗 **GitHub Repository:**  
 <https://github.com/tareqferdous/next-level-assignment-2>
