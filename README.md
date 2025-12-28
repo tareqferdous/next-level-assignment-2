@@ -8,7 +8,7 @@ This project handles user management, vehicle inventory, bookings, and role-base
 ## 🌐 Live Deployment
 
 🔗 **Live API URL:**  
-<https://vehiclerentalsystem-ochre.vercel.app/>
+<https://vehicle-rental-system-nine-wheat.vercel.app/>
 
 🔗 **GitHub Repository:**  
 <https://github.com/tareqferdous/next-level-assignment-2>
