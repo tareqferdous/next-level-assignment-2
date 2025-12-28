@@ -8,7 +8,7 @@ This project handles user management, vehicle inventory, bookings, and role-base
 ## 🌐 Live Deployment
 
 🔗 **Live API URL:**  
-<https://rental-system-chi-three.vercel.app>
+<https://rentalsystem-sigma.vercel.app/>
 
 🔗 **GitHub Repository:**  
 <https://github.com/tareqferdous/next-level-assignment-2>
