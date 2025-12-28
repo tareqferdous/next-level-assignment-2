@@ -13,7 +13,7 @@ export const initDB = async () => {
     type VARCHAR(20) NOT NULL CHECK (type IN ('car', 'bike', 'van', 'SUV')),
     registration_number VARCHAR(50) UNIQUE NOT NULL,
     daily_rent_price NUMERIC(10,2) NOT NULL CHECK (daily_rent_price > 0),
-    availability_status VARCHAR(20) NOT NULL CHECK (availability_status IN ('available', 'booked'))
+    availability_status VARCHAR(20) NOT NULL DEFAULT 'available' CHECK (availability_status IN ('available', 'booked'))
         )
         `);
 
@@ -36,7 +36,7 @@ export const initDB = async () => {
             rent_start_date DATE NOT NULL,
             rent_end_date DATE NOT NULL,
             total_price NUMERIC(10,2) NOT NULL CHECK (total_price > 0),
-            status VARCHAR(20) NOT NULL CHECK (status IN ('active', 'cancelled', 'returned'))
+            status VARCHAR(20) NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'cancelled', 'returned'))
   )
           `);
   console.log("Database Connected");
