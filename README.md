@@ -8,7 +8,7 @@ This project handles user management, vehicle inventory, bookings, and role-base
 ## 🌐 Live Deployment
 
 🔗 **Live API URL:**  
-<https://rental-system-two.vercel.app/>
+<https://rentalsystem-eta.vercel.app/>
 
 🔗 **GitHub Repository:**  
 <https://github.com/tareqferdous/next-level-assignment-2>
@@ -81,7 +81,7 @@ The system is designed following a **modular architecture** with clear separatio
 
 ```bash
 git clone <https://github.com/tareqferdous/next-level-assignment-2>
-cd vehicle-rental-system
+cd project_name
 npm install
 PORT=5000
 DATABASE_URL=your_postgresql_connection_string
