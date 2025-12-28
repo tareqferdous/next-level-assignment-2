@@ -31,12 +31,12 @@ const registerUser = async (req: Request, res: Response) => {
     res.status(201).json({
       success: true,
       message: "User registered successfully",
-      data: result.rows[0],
+      data: result,
     });
   } catch (error: any) {
-    return res.status(500).json({
+    res.status(error.statusCode || 500).json({
       success: false,
-      message: error.message,
+      message: error.message || "Something went wrong",
     });
   }
 };

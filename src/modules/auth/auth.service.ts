@@ -38,16 +38,44 @@ const loginUserIntoDB = async (email: string, password: string) => {
 
 const registerUserInDB = async (payload: Record<string, unknown>) => {
   const { name, email, password, phone, role } = payload;
+
+  if (!name || !email || !password || !phone || !role) {
+    const error: any = new Error(
+      "Name, email, password, phone, and role are required"
+    );
+    error.statusCode = 400;
+    throw error;
+  }
+
+  //role validation
+  const allowedRoles = ["admin", "customer"];
+
+  const normalizedRole = (role as string)?.toLowerCase() || "customer";
+
+  if (!allowedRoles.includes(normalizedRole)) {
+    const error: any = new Error("Invalid role");
+    error.statusCode = 400;
+    throw error;
+  }
+
   const hashPassword = await bcrypt.hash(password as string, 10);
 
-  const result = await pool.query(
-    `INSERT INTO users (name, email, password, phone, role)
-       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-    [name, email, hashPassword, phone, role]
-  );
-  delete result.rows[0].password;
-
-  return result;
+  try {
+    const result = await pool.query(
+      `INSERT INTO users (name, email, password, phone, role)
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING id, name, email, phone, role`,
+      [name, email, hashPassword, phone, normalizedRole]
+    );
+    return result.rows[0];
+  } catch (error: any) {
+    if (error.code === "23505") {
+      const err: any = new Error("Email already exists");
+      err.statusCode = 409;
+      throw err;
+    }
+    throw error;
+  }
 };
 
 export const authServices = {

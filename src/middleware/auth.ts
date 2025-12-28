@@ -1,33 +1,60 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { pool } from "../config/db";
 import config from "../config";
+import { pool } from "../config/db";
 
 const auth = (...roles: ("admin" | "customer")[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
-    const secret = config.jwtSecret!;
-    const requestHeader = req.headers.authorization;
-    const parts = String(requestHeader).split(" ");
-    const token =
-      parts.length === 2 && parts[0] === "Bearer" ? parts[1] : parts[0];
-    if (!token) {
-      throw new Error("You are not authorized");
-    }
-    const decoded = jwt.verify(token, secret) as JwtPayload;
-    const user = await pool.query(
-      `
+    try {
+      const secret = config.jwtSecret!;
+      if (!secret) throw new Error("JWT secret not configured");
+
+      const authHeader = req.headers.authorization;
+
+      if (!authHeader) {
+        return res.status(401).json({
+          success: false,
+          message: "You are not authorized",
+        });
+      }
+
+      const token = authHeader.startsWith("Bearer ")
+        ? authHeader.split(" ")[1]
+        : authHeader;
+
+      if (!token) {
+        return res.status(401).json({
+          success: false,
+          message: "You are not authorized",
+        });
+      }
+      const decoded = jwt.verify(token, secret) as JwtPayload;
+      const user = await pool.query(
+        `
       SELECT * FROM users WHERE email=$1
       `,
-      [decoded.email]
-    );
-    if (user.rows.length === 0) {
-      throw new Error("User not found!");
+        [decoded.email]
+      );
+      if (user.rows.length === 0) {
+        return res.status(401).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+      req.user = decoded;
+      if (roles.length && !roles.includes(decoded.role)) {
+        return res.status(403).json({
+          success: false,
+          message: "You are not authorized",
+        });
+      }
+      next();
+    } catch (error: any) {
+      return res.status(401).json({
+        success: false,
+        message: error.message || "Unauthorized",
+      });
     }
-    req.user = decoded;
-    if (roles.length && !roles.includes(decoded.role)) {
-      throw new Error("You are not authorized");
-    }
-    next();
   };
 };
 
