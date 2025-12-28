@@ -39,10 +39,24 @@ const loginUserIntoDB = async (email: string, password: string) => {
 const registerUserInDB = async (payload: Record<string, unknown>) => {
   const { name, email, password, phone, role } = payload;
 
-  if (!name || !email || !password || !phone || !role) {
+  if (!name || !email || !password || !phone) {
     const error: any = new Error(
-      "Name, email, password, phone, and role are required"
+      "Name, email, password, and phone are required"
     );
+    error.statusCode = 400;
+    throw error;
+  }
+
+  // email validation
+  if ((email as string) !== (email as string).toLowerCase()) {
+    const error: any = new Error("Email must be in lowercase");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  //  Password validation
+  if ((password as string).length < 6) {
+    const error: any = new Error("Password must be at least 6 characters long");
     error.statusCode = 400;
     throw error;
   }
