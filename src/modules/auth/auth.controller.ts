@@ -18,9 +18,9 @@ const loginUser = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error: any) {
-    return res.status(500).json({
+    res.status(error.statusCode || 500).json({
       success: false,
-      message: error.message,
+      message: error.message || "Something went wrong",
     });
   }
 };

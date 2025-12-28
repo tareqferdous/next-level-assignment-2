@@ -7,19 +7,21 @@ const secret = config.jwtSecret!;
 
 const loginUserIntoDB = async (email: string, password: string) => {
   const user = await pool.query(
-    `
-          SELECT * FROM users WHERE email=$1
-          `,
+    `SELECT id, name, email, password, role FROM users WHERE email=$1`,
     [email]
   );
 
-  if (user.rows.length === 0) {
-    throw new Error("User not found!");
+  if (!user.rows.length) {
+    const error: any = new Error("Invalid email or password");
+    error.statusCode = 401;
+    throw error;
   }
-
   const matchedPassword = await bcrypt.compare(password, user.rows[0].password);
+
   if (!matchedPassword) {
-    throw new Error("Invalid credentials!");
+    const error: any = new Error("Invalid email or password");
+    error.statusCode = 401;
+    throw error;
   }
   const jwtPayload = {
     id: user.rows[0].id,
